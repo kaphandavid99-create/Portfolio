@@ -384,7 +384,7 @@ export default function Projects() {
                   {/* Action Buttons */}
                   <div className="flex flex-wrap gap-2 pt-1">
                     <motion.a
-                      href="#"
+                      href="https://drivana-fawn.vercel.app/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-teal-400 via-cyan-500 to-purple-500 px-3 sm:px-4 py-2 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-white shadow-lg transition-all"
@@ -405,7 +405,7 @@ export default function Projects() {
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigator.clipboard?.writeText('#');
+                        navigator.clipboard?.writeText('https://drivana-fawn.vercel.app/');
                         setCopied2(true);
                         setTimeout(() => setCopied2(false), 2000);
                       }}
