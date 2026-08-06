@@ -196,7 +196,7 @@ export default function Hero() {
             className="mt-6 sm:mt-8 flex gap-4 sm:gap-6 justify-center lg:justify-start"
           >
             <a
-              href="https://github.com"
+              href="https://github.com/kaphandavid99-create"
               target="_blank"
               rel="noopener noreferrer"
               className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-14 lg:h-14 rounded-full border-2 border-teal-400/30 flex items-center justify-center transition-all duration-300 hover:scale-125 hover:border-teal-400"
@@ -218,7 +218,7 @@ export default function Hero() {
               </svg>
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/dave-tech-26886b380?utm_source=share_via&utm_content=profile&utm_medium=member_android"
               target="_blank"
               rel="noopener noreferrer"
               className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-14 lg:h-14 rounded-full border-2 border-teal-400/30 flex items-center justify-center transition-all duration-300 hover:scale-125 hover:border-teal-400"
@@ -240,7 +240,7 @@ export default function Hero() {
               </svg>
             </a>
             <a
-              href="mailto:contact@example.com"
+              href="mailto:kaphandavid99@gmail.com"
               className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-14 lg:h-14 rounded-full border-2 border-teal-400/30 flex items-center justify-center transition-all duration-300 hover:scale-125 hover:border-teal-400"
               style={{
                 boxShadow: '0 0 15px rgba(45, 212, 191, 0.2)',
@@ -260,7 +260,7 @@ export default function Hero() {
               </svg>
             </a>
             <a
-              href="https://wa.me/1234567890"
+              href="https://wa.me/671641680"
               target="_blank"
               rel="noopener noreferrer"
               className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-14 lg:h-14 rounded-full border-2 border-teal-400/30 flex items-center justify-center transition-all duration-300 hover:scale-125 hover:border-teal-400"
