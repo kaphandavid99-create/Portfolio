@@ -260,7 +260,7 @@ export default function Hero() {
               </svg>
             </a>
             <a
-              href="https://wa.me/671641680"
+              href="https://wa.me/237671641680"
               target="_blank"
               rel="noopener noreferrer"
               className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-14 lg:h-14 rounded-full border-2 border-teal-400/30 flex items-center justify-center transition-all duration-300 hover:scale-125 hover:border-teal-400"

@@ -37,20 +37,20 @@ function FlameEffect() {
     const tealColor = new THREE.Color(0x2dd4bf);
 
     for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 1.4;
-      positions[i * 3 + 1] = -1.3 + Math.random() * 0.6;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 0.5;
+      positions[i * 3] = (Math.random() - 0.5) * 0.6;
+      positions[i * 3 + 1] = -1.1 + Math.random() * 0.45;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 0.25;
 
       const variation = 0.85 + Math.random() * 0.35;
       colors[i * 3] = tealColor.r * variation;
       colors[i * 3 + 1] = tealColor.g * variation;
       colors[i * 3 + 2] = tealColor.b * variation;
 
-      sizes[i] = Math.random() * 0.22 + 0.1;
+      sizes[i] = Math.random() * 0.18 + 0.08;
 
-      velocities[i * 3] = (Math.random() - 0.5) * 0.013;
-      velocities[i * 3 + 1] = 0.018 + Math.random() * 0.025;
-      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.012;
+      velocities[i * 3] = (Math.random() - 0.5) * 0.006;
+      velocities[i * 3 + 1] = 0.022 + Math.random() * 0.02;
+      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.006;
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -69,8 +69,8 @@ function FlameEffect() {
         void main() {
           vColor = color;
           vec3 pos = position;
-          pos.x += sin(time * 2.2 + position.y * 3.4) * 0.08;
-          pos.z += cos(time * 1.7 + position.y * 2.3) * 0.08;
+          pos.x += sin(time * 2.2 + position.y * 3.4) * 0.03;
+          pos.z += cos(time * 1.7 + position.y * 2.3) * 0.03;
 
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
           gl_PointSize = size * (320.0 / -mvPosition.z);
@@ -112,10 +112,10 @@ function FlameEffect() {
         currentPositions[i * 3 + 1] += velocities[i * 3 + 1];
         currentPositions[i * 3 + 2] += velocities[i * 3 + 2];
 
-        if (currentPositions[i * 3 + 1] > 1.8) {
-          currentPositions[i * 3] = (Math.random() - 0.5) * 1.4;
-          currentPositions[i * 3 + 1] = -1.3 + Math.random() * 0.6;
-          currentPositions[i * 3 + 2] = (Math.random() - 0.5) * 0.5;
+        if (currentPositions[i * 3 + 1] > 1.55) {
+          currentPositions[i * 3] = (Math.random() - 0.5) * 0.6;
+          currentPositions[i * 3 + 1] = -1.1 + Math.random() * 0.45;
+          currentPositions[i * 3 + 2] = (Math.random() - 0.5) * 0.25;
         }
       }
 
