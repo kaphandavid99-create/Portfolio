@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "vercel-build": "cd dave-tech && npm install && npm run build"
+    "vercel-build": "cd dave-tech && npm install --include=dev && npm run build"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",
