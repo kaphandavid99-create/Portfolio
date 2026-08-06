@@ -139,11 +139,13 @@ function FlameEffect() {
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none absolute -inset-2.5 z-10 flex items-center justify-center"
+      className="pointer-events-none absolute z-10 flex items-center justify-center"
       style={{ 
-        transform: "translateZ(0)",
-        width: isMobile ? '100px' : '140px',
-        height: isMobile ? '100px' : '140px'
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%) translateZ(0)',
+        width: isMobile ? '110px' : '150px',
+        height: isMobile ? '110px' : '150px'
       }}
     />
   );
