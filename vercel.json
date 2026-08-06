@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd dave-tech && npm install --include=dev && npm run build",
+  "outputDirectory": "dave-tech/.next",
+  "framework": "nextjs"
+}
