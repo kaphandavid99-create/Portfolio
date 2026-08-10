@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -23,7 +25,7 @@ export default function CTA() {
         className="mx-auto max-w-6xl"
       >
         <div className="relative py-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center px-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center px-2">
             {[
               {
                 title: 'Web App Development',
@@ -48,16 +50,15 @@ export default function CTA() {
             ].map((service, index) => (
               <motion.div
                 key={service.title}
-                className="relative w-full max-w-[340px] sm:max-w-[380px] rounded-[1.5rem] overflow-hidden"
+                className="relative w-full max-w-[340px] sm:max-w-[380px] rounded-[1.5rem] overflow-hidden bg-white dark:bg-slate-900/95"
                 initial={{ scale: 0.98, opacity: 0 }}
                 whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.15 + index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
                 style={{
-                  background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(17,24,39,0.95))',
                   border: '2px solid rgba(45, 212, 191, 0.25)',
-                  boxShadow: '0 20px 60px rgba(13,18,25,0.6), 0 0 40px rgba(45,212,191,0.12)'
+                  boxShadow: '0 20px 60px rgba(13,18,25,0.1) dark:box-shadow: 0 20px 60px rgba(13,18,25,0.6), 0 0 40px rgba(45,212,191,0.12)'
                 }}
               >
                 <div className="relative z-10 p-4">
@@ -79,7 +80,7 @@ export default function CTA() {
                     }}>
                       {service.title}
                     </h3>
-                    <p className="text-slate-300 leading-relaxed text-[12px] sm:text-sm" style={{ fontFamily: 'Georgia, serif' }}>
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-[12px] sm:text-sm" style={{ fontFamily: 'Georgia, serif' }}>
                       {service.description}
                     </p>
 

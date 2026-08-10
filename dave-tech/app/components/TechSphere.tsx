@@ -23,6 +23,7 @@ import {
   SiRedux,
   SiFigma
 } from "react-icons/si";
+import { useTheme } from "next-themes";
 
 const skills = [
   { name: "HTML5", icon: FaHtml5, level: 95, color: "#E34F26", description: "HTML5 is the foundation of modern web development, providing semantic markup, multimedia support, and enhanced APIs for building accessible, SEO-friendly web applications with rich content and structure." },
@@ -332,7 +333,7 @@ export default function TechSphere() {
           }}>
             My Expertise
           </h2>
-          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto italic px-4" style={{ 
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto italic px-4" style={{ 
             fontFamily: 'Georgia, serif',
             color: '#2dd4bf',
             textShadow: '0 0 15px rgba(45, 212, 191, 0.3)'

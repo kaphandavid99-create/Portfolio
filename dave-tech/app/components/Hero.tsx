@@ -25,7 +25,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mt-6 sm:mt-8 text-xl leading-[0.9] tracking-[-0.03em] sm:text-2xl lg:text-3xl xl:text-4xl"
           >
-            <span className="block text-white font-bold tracking-widest uppercase" style={{ 
+            <span className="block text-slate-900 dark:text-white font-bold tracking-widest uppercase" style={{ 
               fontFamily: 'Georgia, serif',
               textShadow: '0 0 20px rgba(34, 211, 238, 0.5), 0 0 40px rgba(34, 211, 238, 0.3), 0 0 60px rgba(34, 211, 238, 0.2)',
               letterSpacing: '0.15em'
@@ -90,8 +90,7 @@ export default function Hero() {
               background: 'linear-gradient(135deg, rgba(45, 212, 191, 0.1), rgba(6, 182, 212, 0.1), rgba(45, 212, 191, 0.1))',
               boxShadow: '0 0 40px rgba(45, 212, 191, 0.15), inset 0 0 20px rgba(45, 212, 191, 0.05)'
             }}>
-            <span className="font-bold not-italic" style={{ 
-              color: '#ffffff',
+            <span className="font-bold not-italic text-slate-900 dark:text-white" style={{ 
               textShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(45, 212, 191, 0.3)'
             }}>
               I craft

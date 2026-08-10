@@ -4,12 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { useTheme } from "next-themes";
+import { ThemeToggle } from "./theme-toggle";
 
 function FlameEffect() {
-  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 640);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setIsMounted(true);
+    setIsMobile(window.innerWidth < 640);
     const handleResize = () => setIsMobile(window.innerWidth < 640);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -136,6 +141,10 @@ function FlameEffect() {
     };
   }, [isMobile]);
 
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <div
       ref={containerRef}
@@ -163,6 +172,7 @@ const navItems = [
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
   const leftItems = navItems.slice(0, 3);
   const rightItems = navItems.slice(3);
 
@@ -190,7 +200,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-slate-950/50 backdrop-blur-md">
+    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/80 dark:bg-slate-950/80">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1 lg:px-10">
         <div className="hidden items-center gap-6 md:flex">
           {leftItems.map((item) => {
@@ -199,7 +209,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`group relative px-4 py-2 text-sm font-bold uppercase tracking-[0.25em] transition-all duration-300 ${isActive ? 'text-white' : 'text-teal-400'}`}
+                className={`group relative px-4 py-2 text-sm font-bold uppercase tracking-[0.25em] transition-all duration-300 ${isActive ? 'text-slate-900 dark:text-white' : 'text-teal-600 dark:text-teal-400'}`}
                 style={{ 
                   textShadow: isActive 
                     ? '0 0 20px rgba(45, 212, 191, 1), 0 0 40px rgba(45, 212, 191, 0.8), 0 0 60px rgba(45, 212, 191, 0.6), 0 0 80px rgba(45, 212, 191, 0.4)' 
@@ -210,7 +220,7 @@ export default function Navbar() {
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.color = '#2dd4bf';
                     e.currentTarget.style.textShadow = '0 0 15px rgba(45, 212, 191, 0.8), 0 0 30px rgba(45, 212, 191, 0.6), 0 0 45px rgba(45, 212, 191, 0.4)';
                     e.currentTarget.style.letterSpacing = '0.35em';
                     e.currentTarget.style.transform = 'scale(1.1)';
@@ -258,7 +268,15 @@ export default function Navbar() {
           })}
         </div>
 
-        <Link href="#home" className="relative flex h-20 w-20 items-center justify-center sm:h-24 sm:w-24">
+        <button 
+          onClick={() => {
+            console.log('Current theme before toggle:', theme);
+            const newTheme = theme === "dark" ? "light" : "dark";
+            setTheme(newTheme);
+            console.log('Setting theme to:', newTheme);
+          }}
+          className="relative flex h-20 w-20 items-center justify-center sm:h-24 sm:w-24 cursor-pointer"
+        >
           <div className="absolute inset-0 flex items-center justify-center">
             <FlameEffect />
           </div>
@@ -269,7 +287,7 @@ export default function Navbar() {
             height={96}
             className="relative z-20 h-20 w-20 rounded-full object-contain sm:h-24 sm:w-24"
           />
-        </Link>
+        </button>
 
         <div className="hidden items-center gap-6 md:flex">
           {rightItems.map((item) => {
@@ -278,7 +296,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`group relative px-4 py-2 text-sm font-bold uppercase tracking-[0.25em] transition-all duration-300 ${isActive ? 'text-white' : 'text-teal-400'}`}
+                className={`group relative px-4 py-2 text-sm font-bold uppercase tracking-[0.25em] transition-all duration-300 ${isActive ? 'text-slate-900 dark:text-white' : 'text-teal-600 dark:text-teal-400'}`}
                 style={{ 
                   textShadow: isActive 
                     ? '0 0 20px rgba(45, 212, 191, 1), 0 0 40px rgba(45, 212, 191, 0.8), 0 0 60px rgba(45, 212, 191, 0.6), 0 0 80px rgba(45, 212, 191, 0.4)' 
@@ -289,7 +307,7 @@ export default function Navbar() {
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.color = '#2dd4bf';
                     e.currentTarget.style.textShadow = '0 0 15px rgba(45, 212, 191, 0.8), 0 0 30px rgba(45, 212, 191, 0.6), 0 0 45px rgba(45, 212, 191, 0.4)';
                     e.currentTarget.style.letterSpacing = '0.35em';
                     e.currentTarget.style.transform = 'scale(1.1)';

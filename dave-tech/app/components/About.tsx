@@ -1,3 +1,5 @@
+"use client";
+
 export default function About() {
   return (
     <section id="about" className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
@@ -8,7 +10,7 @@ export default function About() {
         letterSpacing: '0.15em'
       }}>About Me</h2>
       <div className="max-w-3xl mx-auto text-center px-4">
-        <p className="text-slate-400 text-base sm:text-lg leading-relaxed" style={{
+        <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg leading-relaxed" style={{
           fontFamily: 'Georgia, serif',
           color: '#2dd4bf',
           textShadow: '0 0 15px rgba(45, 212, 191, 0.3)'
@@ -18,7 +20,7 @@ export default function About() {
           modern technologies like React, Next.js, and TypeScript, I transform 
           ideas into seamless digital experiences.
         </p>
-        <p className="text-slate-400 text-base sm:text-lg leading-relaxed mt-6" style={{
+        <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg leading-relaxed mt-6" style={{
           fontFamily: 'Georgia, serif',
           color: '#2dd4bf',
           textShadow: '0 0 15px rgba(45, 212, 191, 0.3)'
