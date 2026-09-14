@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { SiNextdotjs, SiTailwindcss, SiSupabase, SiTypescript, SiExpress, SiMongodb, SiNodedotjs, SiReact } from "react-icons/si";
 import { FaReact } from "react-icons/fa";
 
@@ -37,38 +37,25 @@ const projects = [
 ];
 
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
-  const [isHovered, setIsHovered] = useState(false);
   const [copied, setCopied] = useState(false);
 
   return (
     <motion.div
-      className="relative w-full max-w-[340px] rounded-[1.5rem] overflow-hidden bg-white dark:bg-slate-900/95 border-2 border-teal-400/30"
-      initial={{ scale: 0.9, opacity: 0, y: 50 }}
-      whileInView={{ scale: 1, opacity: 1, y: 0 }}
+      className={`surface-card relative w-full max-w-[340px] overflow-hidden ${index % 2 === 1 ? "lg:-translate-y-4" : ""}`}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: index % 2 === 1 ? -16 : 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: index * 0.2 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      whileHover={{ 
-        rotateY: 5,
-        rotateX: -5,
-      }}
-      style={{
-        transformStyle: "preserve-3d",
-      }}
+      transition={{ duration: 0.6, delay: index * 0.15 }}
+      whileHover={{ y: (index % 2 === 1 ? -16 : 0) - 4 }}
     >
+      {/* Corner tag */}
+      <div className="absolute top-0 left-6 z-20 rounded-b-lg bg-coral-500 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white shadow-md">
+        Project {String(index + 1).padStart(2, "0")}
+      </div>
 
-
-      {/* Inner content container */}
-      <div className="relative z-10 p-4">
+      <div className="relative z-10 p-4 pt-6">
         {/* Image Section */}
-        <motion.div
-          className="relative w-full h-36 sm:h-44 md:h-52 rounded-2xl overflow-hidden mb-3"
-          style={{
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)',
-            transform: "translateZ(20px)",
-          }}
-        >
+        <div className="relative w-full h-36 sm:h-44 md:h-52 rounded-xl overflow-hidden mb-3">
           <Image
             src={project.image}
             alt={project.title}
@@ -76,77 +63,57 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 dark:from-slate-900/90 via-transparent to-transparent" />
-          
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
+
           {/* Live badge */}
-          <motion.div
-            className="absolute top-4 right-4"
-            style={{ transform: "translateZ(30px)" }}
-          >
-            <div className="flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold text-emerald-300 border border-emerald-500/30 backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              Live
-            </div>
-          </motion.div>
-        </motion.div>
+          <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold text-emerald-100 border border-emerald-400/40 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            Live
+          </div>
+        </div>
 
         {/* Content Section */}
-        <div className="space-y-3" style={{ transform: "translateZ(10px)" }}>
+        <div className="space-y-3">
           <div>
-            <motion.h3
-              className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white mb-1"
-              style={{ 
-                fontFamily: 'Georgia, serif',
-              }}
-            >
+            <h3 className="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-1">
               {project.title}
-            </motion.h3>
-            <motion.p
-              className="text-slate-600 dark:text-slate-300 leading-relaxed text-[11px] sm:text-xs"
-            >
+            </h3>
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-[11px] sm:text-xs">
               {project.description}
-            </motion.p>
+            </p>
           </div>
 
           {/* Technologies */}
-          <div className="rounded-2xl border border-slate-300 dark:border-slate-700/50 bg-slate-100 dark:bg-slate-800/50 p-3 backdrop-blur-sm">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-slate-600 dark:text-slate-400 mb-2 font-semibold">Technologies</p>
+          <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400 mb-2 font-semibold">Technologies</p>
             <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech, techIndex) => (
-                <motion.span
+              {project.technologies.map((tech) => (
+                <span
                   key={tech.name}
-                  className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-slate-200/80 to-slate-300/80 dark:from-slate-700/80 dark:to-slate-600/80 px-2 py-0.5 text-[10px] text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600/50"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: techIndex * 0.1 }}
+                  className="inline-flex items-center gap-1 rounded-full bg-slate-200/80 dark:bg-slate-700/70 px-2 py-0.5 text-[10px] text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600/50"
                 >
                   <tech.icon className="w-3 h-3" />
                   {tech.name}
-                </motion.span>
+                </span>
               ))}
             </div>
           </div>
 
           {/* Action buttons */}
           <div className="flex gap-2 pt-2">
-            <motion.a
+            <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-teal-400 via-cyan-500 to-purple-500 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-white shadow-lg transition-all flex-1"
-              style={{ 
-                fontFamily: 'Georgia, serif',
-              }}
-              whileTap={{ scale: 0.98 }}
+              className="inline-flex flex-1 items-center justify-center rounded-lg bg-mint-500 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-white transition-all hover:bg-mint-600"
             >
               Live Demo
-            </motion.a>
+            </a>
 
-            <motion.button
+            <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
@@ -154,18 +121,12 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                 setCopied(true);
                 setTimeout(() => setCopied(false), 2000);
               }}
-              className="inline-flex items-center justify-center rounded-2xl border-2 border-teal-400/50 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-teal-600 dark:text-teal-300 transition-all backdrop-blur-sm"
-              style={{
-                fontFamily: 'Georgia, serif',
-              }}
-              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center justify-center rounded-lg border-2 border-slate-300 dark:border-slate-700 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all hover:border-mint-500 hover:text-mint-600 dark:hover:text-mint-400"
             >
-              {copied ? 'Copied!' : 'Copy Link'}
-            </motion.button>
+              {copied ? "Copied!" : "Copy Link"}
+            </button>
           </div>
         </div>
-
-
       </div>
     </motion.div>
   );
@@ -173,40 +134,28 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
 
 export default function Projects() {
   return (
-    <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 relative bg-white dark:bg-transparent">
+    <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 relative">
       {/* Section header */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.6 }}
         className="text-center mb-12 sm:mb-16"
       >
-        <h2
-          className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black uppercase tracking-widest mb-4"
-          style={{
-            fontFamily: 'Georgia, serif',
-            color: '#2dd4bf',
-            textShadow: '0 0 30px rgba(45, 212, 191, 0.5), 0 0 60px rgba(45, 212, 191, 0.3)',
-            letterSpacing: '0.15em',
-          }}
-        >
+        <span className="eyebrow-tag border border-mint-500/30 bg-mint-500/10 text-mint-600 dark:text-mint-400">
+          Portfolio
+        </span>
+        <h2 className="mt-4 text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4">
           Featured Projects
         </h2>
-        <p
-          className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto italic px-4"
-          style={{
-            fontFamily: 'Georgia, serif',
-            color: '#2dd4bf',
-            textShadow: '0 0 15px rgba(45, 212, 191, 0.3)',
-          }}
-        >
-          A spectacular showcase of digital innovation and creative excellence.
+        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto px-4">
+          A showcase of digital innovation and creative excellence.
         </p>
       </motion.div>
 
       {/* Projects Grid */}
-      <div className="relative py-12">
+      <div className="relative py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center px-2">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />

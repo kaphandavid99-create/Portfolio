@@ -103,7 +103,7 @@ function OptimizedBackground() {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white dark:bg-[#020617]">
+    <main className="min-h-screen bg-background">
       <OptimizedBackground />
       <Navbar />
       <Hero />

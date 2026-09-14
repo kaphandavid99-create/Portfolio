@@ -169,6 +169,21 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
+function NavLink({ label, href, isActive }: { label: string; href: string; isActive: boolean }) {
+  return (
+    <Link
+      href={href}
+      className={`relative px-4 py-2 text-sm font-bold uppercase tracking-[0.15em] rounded-full transition-all duration-300 ${
+        isActive
+          ? "bg-mint-500 text-white"
+          : "text-slate-600 dark:text-slate-300 hover:text-mint-600 dark:hover:text-mint-400"
+      }`}
+    >
+      {label}
+    </Link>
+  );
+}
+
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -200,82 +215,23 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-white/80 dark:bg-slate-950/80">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1 lg:px-10">
-        <div className="hidden items-center gap-6 md:flex">
-          {leftItems.map((item) => {
-            const isActive = activeSection === item.href.replace('#', '').toLowerCase();
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`group relative px-4 py-2 text-sm font-bold uppercase tracking-[0.25em] transition-all duration-300 ${isActive ? 'text-slate-900 dark:text-white' : 'text-teal-600 dark:text-teal-400'}`}
-                style={{ 
-                  textShadow: isActive 
-                    ? '0 0 20px rgba(45, 212, 191, 1), 0 0 40px rgba(45, 212, 191, 0.8), 0 0 60px rgba(45, 212, 191, 0.6), 0 0 80px rgba(45, 212, 191, 0.4)' 
-                    : '0 0 10px rgba(45, 212, 191, 0.4)',
-                  fontFamily: 'Georgia, serif',
-                  letterSpacing: isActive ? '0.35em' : '0.25em',
-                  transform: isActive ? 'scale(1.1)' : 'scale(1)'
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = '#2dd4bf';
-                    e.currentTarget.style.textShadow = '0 0 15px rgba(45, 212, 191, 0.8), 0 0 30px rgba(45, 212, 191, 0.6), 0 0 45px rgba(45, 212, 191, 0.4)';
-                    e.currentTarget.style.letterSpacing = '0.35em';
-                    e.currentTarget.style.transform = 'scale(1.1)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = '#2dd4bf';
-                    e.currentTarget.style.textShadow = '0 0 10px rgba(45, 212, 191, 0.4)';
-                    e.currentTarget.style.letterSpacing = '0.25em';
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }
-                }}
-              >
-                <span className="relative z-10">{item.label}</span>
-                {/* Animated underline */}
-                <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-teal-400 via-cyan-400 to-fuchsia-400 transition-all duration-500 ease-out ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                {/* Top accent line */}
-                <span className={`absolute top-0 left-0 h-0.5 bg-gradient-to-r from-transparent via-teal-400 to-transparent transition-all duration-700 ease-out delay-100 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                {/* Glowing dots */}
-                <span className={`absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-1 bg-teal-400 rounded-full transition-opacity duration-300 ${isActive ? 'opacity-100 animate-ping' : 'opacity-0 group-hover:opacity-100 group-hover:animate-ping'}`}></span>
-                <span className={`absolute -right-2 top-1/2 -translate-y-1/2 w-1 h-1 bg-teal-400 rounded-full transition-opacity duration-300 delay-200 ${isActive ? 'opacity-100 animate-ping' : 'opacity-0 group-hover:opacity-100 group-hover:animate-ping'}`}></span>
-                
-                {/* Spectacular active effect - only for Home */}
-                {isActive && item.label === "Home" && (
-                  <>
-                    {/* Pulsing glow effect */}
-                    <span className="absolute inset-0 bg-gradient-to-r from-teal-400/20 via-cyan-400/30 to-fuchsia-400/20 rounded-lg blur-xl animate-pulse"></span>
-                    {/* Animated particles */}
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex gap-1">
-                      <span className="w-1 h-1 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                      <span className="w-1 h-1 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                      <span className="w-1 h-1 bg-fuchsia-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
-                      <span className="w-1 h-1 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '450ms' }}></span>
-                      <span className="w-1 h-1 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '600ms' }}></span>
-                    </span>
-                    {/* Shimmer effect */}
-                    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent overflow-hidden rounded-lg">
-                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shimmer_2s_infinite]"></span>
-                    </span>
-                  </>
-                )}
-              </Link>
-            );
-          })}
+    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-background/80 border-b border-slate-200 dark:border-slate-800">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2 lg:px-10">
+        <div className="hidden items-center gap-2 md:flex">
+          {leftItems.map((item) => (
+            <NavLink
+              key={item.label}
+              label={item.label}
+              href={item.href}
+              isActive={activeSection === item.href.replace("#", "").toLowerCase()}
+            />
+          ))}
         </div>
 
-        <button 
-          onClick={() => {
-            console.log('Current theme before toggle:', theme);
-            const newTheme = theme === "dark" ? "light" : "dark";
-            setTheme(newTheme);
-            console.log('Setting theme to:', newTheme);
-          }}
-          className="relative flex h-20 w-20 items-center justify-center sm:h-24 sm:w-24 cursor-pointer"
+        <button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="relative flex h-16 w-16 items-center justify-center sm:h-20 sm:w-20 cursor-pointer"
+          aria-label="Toggle theme"
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <FlameEffect />
@@ -283,61 +239,26 @@ export default function Navbar() {
           <Image
             src="/logo2.png"
             alt="Logo"
-            width={96}
-            height={96}
-            className="relative z-20 h-20 w-20 rounded-full object-contain sm:h-24 sm:w-24"
+            width={80}
+            height={80}
+            className="relative z-20 h-16 w-16 rounded-full object-contain sm:h-20 sm:w-20"
           />
         </button>
 
-        <div className="hidden items-center gap-6 md:flex">
-          {rightItems.map((item) => {
-            const isActive = activeSection === item.href.replace('#', '').toLowerCase();
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`group relative px-4 py-2 text-sm font-bold uppercase tracking-[0.25em] transition-all duration-300 ${isActive ? 'text-slate-900 dark:text-white' : 'text-teal-600 dark:text-teal-400'}`}
-                style={{ 
-                  textShadow: isActive 
-                    ? '0 0 20px rgba(45, 212, 191, 1), 0 0 40px rgba(45, 212, 191, 0.8), 0 0 60px rgba(45, 212, 191, 0.6), 0 0 80px rgba(45, 212, 191, 0.4)' 
-                    : '0 0 10px rgba(45, 212, 191, 0.4)',
-                  fontFamily: 'Georgia, serif',
-                  letterSpacing: isActive ? '0.35em' : '0.25em',
-                  transform: isActive ? 'scale(1.1)' : 'scale(1)'
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = '#2dd4bf';
-                    e.currentTarget.style.textShadow = '0 0 15px rgba(45, 212, 191, 0.8), 0 0 30px rgba(45, 212, 191, 0.6), 0 0 45px rgba(45, 212, 191, 0.4)';
-                    e.currentTarget.style.letterSpacing = '0.35em';
-                    e.currentTarget.style.transform = 'scale(1.1)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = '#2dd4bf';
-                    e.currentTarget.style.textShadow = '0 0 10px rgba(45, 212, 191, 0.4)';
-                    e.currentTarget.style.letterSpacing = '0.25em';
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }
-                }}
-              >
-                <span className="relative z-10">{item.label}</span>
-                {/* Animated underline */}
-                <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-teal-400 via-cyan-400 to-fuchsia-400 transition-all duration-500 ease-out ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                {/* Top accent line */}
-                <span className={`absolute top-0 left-0 h-0.5 bg-gradient-to-r from-transparent via-teal-400 to-transparent transition-all duration-700 ease-out delay-100 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                {/* Glowing dots */}
-                <span className={`absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-1 bg-teal-400 rounded-full transition-opacity duration-300 ${isActive ? 'opacity-100 animate-ping' : 'opacity-0 group-hover:opacity-100 group-hover:animate-ping'}`}></span>
-                <span className={`absolute -right-2 top-1/2 -translate-y-1/2 w-1 h-1 bg-teal-400 rounded-full transition-opacity duration-300 delay-200 ${isActive ? 'opacity-100 animate-ping' : 'opacity-0 group-hover:opacity-100 group-hover:animate-ping'}`}></span>
-              </Link>
-            );
-          })}
+        <div className="hidden items-center gap-2 md:flex">
+          {rightItems.map((item) => (
+            <NavLink
+              key={item.label}
+              label={item.label}
+              href={item.href}
+              isActive={activeSection === item.href.replace("#", "").toLowerCase()}
+            />
+          ))}
         </div>
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden flex flex-col items-center justify-center gap-1.5 p-2 text-teal-400"
+          className="md:hidden flex flex-col items-center justify-center gap-1.5 p-2 text-mint-500"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -348,28 +269,22 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
-      <div className={`md:hidden absolute top-full left-0 w-full bg-slate-950/95 backdrop-blur-md transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-        <div className="px-6 py-4 flex flex-col gap-4">
-          {navItems.map((item) => {
-            const isActive = activeSection === item.href.replace('#', '').toLowerCase();
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`px-4 py-3 text-sm font-bold uppercase tracking-[0.2em] transition-all duration-300 ${isActive ? 'text-white' : 'text-teal-400'}`}
-                style={{ 
-                  textShadow: isActive 
-                    ? '0 0 15px rgba(45, 212, 191, 0.8)' 
-                    : '0 0 8px rgba(45, 212, 191, 0.3)',
-                  fontFamily: 'Georgia, serif',
-                  letterSpacing: isActive ? '0.3em' : '0.2em',
-                }}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+      <div className={`md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+        <div className="px-6 py-4 flex flex-col gap-2">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] rounded-lg transition-all duration-300 ${
+                activeSection === item.href.replace("#", "").toLowerCase()
+                  ? "bg-mint-500 text-white"
+                  : "text-slate-600 dark:text-slate-300"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
       </div>
     </nav>

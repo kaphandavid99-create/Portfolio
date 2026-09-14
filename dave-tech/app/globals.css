@@ -3,25 +3,91 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #059669;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #18181b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f0654a;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #10b981;
+  --radius: 0.75rem;
 }
 
 .dark {
-  --background: #020617;
-  --foreground: #ffffff;
+  --background: #0a0e14;
+  --foreground: #f1f5f9;
+  --card: #10151d;
+  --card-foreground: #f1f5f9;
+  --popover: #10151d;
+  --popover-foreground: #f1f5f9;
+  --primary: #34d399;
+  --primary-foreground: #06251b;
+  --secondary: #171d27;
+  --secondary-foreground: #f1f5f9;
+  --muted: #171d27;
+  --muted-foreground: #8b98ab;
+  --accent: #fb7563;
+  --accent-foreground: #1a0806;
+  --destructive: #7f1d1d;
+  --destructive-foreground: #f1f5f9;
+  --border: #202834;
+  --input: #202834;
+  --ring: #34d399;
+  --radius: 0.75rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 .glow {
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.35), transparent 70%);
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.35), transparent 70%);
   filter: blur(20px);
   transform: scale(1.1);
+}
+
+/* Reusable professional surface + tag primitives, used across sections */
+.surface-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+}
+
+.eyebrow-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.stat-pill {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  padding: 0.65rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 @keyframes shimmer {
