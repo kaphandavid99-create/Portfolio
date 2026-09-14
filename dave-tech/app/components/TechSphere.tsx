@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import * as THREE from "three";
 import { AnimatePresence, motion } from "framer-motion";
-import { 
-  FaHtml5, 
-  FaCss3Alt, 
-  FaJs, 
-  FaReact, 
-  FaNodeJs, 
+import { Hand } from "lucide-react";
+import {
+  FaHtml5,
+  FaCss3Alt,
+  FaJs,
+  FaReact,
+  FaNodeJs,
   FaGithub,
   FaPython
 } from "react-icons/fa";
@@ -49,6 +50,7 @@ export default function TechSphere() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [showTouchHint, setShowTouchHint] = useState(true);
   const hoveredSkillRef = useRef<string | null>(null);
   const selectedSkillRef = useRef<string | null>(null);
   const isPausedRef = useRef(false);
@@ -58,6 +60,13 @@ export default function TechSphere() {
     // Pause the auto-spin while a card is open so it's easy to read
     isPausedRef.current = isPaused || !!selectedSkill;
   }, [isPaused, selectedSkill]);
+
+  // Fade the "drag to spin" hint away after a few seconds
+  useEffect(() => {
+    if (!showTouchHint) return;
+    const timer = setTimeout(() => setShowTouchHint(false), 4500);
+    return () => clearTimeout(timer);
+  }, [showTouchHint]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -227,6 +236,72 @@ export default function TechSphere() {
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
+    // Touch interaction — drag a finger across the sphere to spin it
+    let touchLastX = 0;
+    let touchLastY = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchMoved = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchLastX = touch.clientX;
+      touchLastY = touch.clientY;
+      touchMoved = false;
+      setIsPaused(true);
+      setShowTouchHint(false);
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      const touch = e.touches[0];
+      const deltaX = touch.clientX - touchLastX;
+      const deltaY = touch.clientY - touchLastY;
+
+      if (Math.abs(touch.clientX - touchStartX) > 5 || Math.abs(touch.clientY - touchStartY) > 5) {
+        touchMoved = true;
+      }
+
+      targetRotationY += deltaX * 0.01;
+      targetRotationX += deltaY * 0.01;
+
+      touchLastX = touch.clientX;
+      touchLastY = touch.clientY;
+
+      // Prevent the page from scrolling while spinning the sphere
+      e.preventDefault();
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      setIsPaused(false);
+      targetRotationX = 0;
+      targetRotationY = 0;
+
+      // A tap (no meaningful drag) selects the icon under the finger
+      if (!touchMoved) {
+        const touch = e.changedTouches[0];
+        const rect = containerRef.current!.getBoundingClientRect();
+        mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(iconMeshes);
+
+        if (intersects.length > 0) {
+          const tapped = intersects[0].object as THREE.Sprite;
+          const name = tapped.userData.skill as string;
+          setSelectedSkill((prev) => (prev === name ? null : name));
+        }
+      }
+    };
+
+    containerRef.current.addEventListener('touchstart', onTouchStart, { passive: true });
+    containerRef.current.addEventListener('touchmove', onTouchMove, { passive: false });
+    containerRef.current.addEventListener('touchend', onTouchEnd);
+
     const checkHover = (e: MouseEvent) => {
       const rect = containerRef.current!.getBoundingClientRect();
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -315,6 +390,9 @@ export default function TechSphere() {
       containerRef.current?.removeEventListener('mouseleave', onMouseLeave);
       containerRef.current?.removeEventListener('mousemove', checkHover);
       containerRef.current?.removeEventListener('click', onClick);
+      containerRef.current?.removeEventListener('touchstart', onTouchStart);
+      containerRef.current?.removeEventListener('touchmove', onTouchMove);
+      containerRef.current?.removeEventListener('touchend', onTouchEnd);
       if (containerRef.current && renderer.domElement) {
         containerRef.current.removeChild(renderer.domElement);
       }
@@ -352,49 +430,73 @@ export default function TechSphere() {
           {/* 3D Scene Container */}
           <div
             ref={containerRef}
-            className="w-full h-[500px] sm:h-[600px] lg:h-[700px]"
+            className="w-full h-[500px] sm:h-[600px] lg:h-[700px] touch-none"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           />
+
+          {/* Mobile "drag to spin" hint */}
+          <AnimatePresence>
+            {showTouchHint && !currentSkill && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-x-0 top-3 flex justify-center sm:hidden pointer-events-none"
+              >
+                <div className="flex items-center gap-2 rounded-full bg-slate-900/70 dark:bg-slate-800/80 text-white text-xs px-3 py-1.5 backdrop-blur-sm">
+                  <motion.span
+                    animate={{ x: [-4, 4, -4] }}
+                    transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                    className="flex"
+                  >
+                    <Hand className="w-3.5 h-3.5" />
+                  </motion.span>
+                  <span>Drag to spin</span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Skill Detail Popup */}
           <AnimatePresence>
             {currentSkill && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                className="surface-card absolute bottom-4 left-1/2 transform -translate-x-1/2 backdrop-blur-md p-6 max-w-md w-full mx-4 shadow-2xl"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="surface-card absolute inset-0 m-auto h-fit max-h-[80%] w-full max-w-xs sm:max-w-sm backdrop-blur-md p-4 sm:p-5 shadow-2xl z-10 overflow-y-auto"
               >
                 <button
                   type="button"
                   onClick={() => setSelectedSkill(null)}
                   aria-label="Close"
-                  className="absolute top-3 right-3 flex h-7 w-7 items-center justify-center rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700/60 transition-colors"
+                  className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700/60 transition-colors"
                 >
                   ✕
                 </button>
-                <div className="flex items-center gap-4 mb-3">
-                  <div 
-                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                <div className="flex items-center gap-3 mb-2">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
                     style={{
                       background: `radial-gradient(circle, ${currentSkill.color}40, ${currentSkill.color}20)`,
                       border: `2px solid ${currentSkill.color}60`
                     }}
                   >
-                    <currentSkill.icon className="w-6 h-6" style={{ color: currentSkill.color }} />
+                    <currentSkill.icon className="w-5 h-5" style={{ color: currentSkill.color }} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                       {currentSkill.name}
                     </h3>
-                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 mt-1">
+                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 mt-1">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${currentSkill.level}%` }}
                         transition={{ duration: 0.5 }}
-                        className="h-2 rounded-full"
-                        style={{ 
+                        className="h-1.5 rounded-full"
+                        style={{
                           background: `linear-gradient(90deg, ${currentSkill.color}, ${currentSkill.color}80)`,
                           boxShadow: `0 0 10px ${currentSkill.color}`
                         }}
@@ -402,7 +504,7 @@ export default function TechSphere() {
                     </div>
                   </div>
                 </div>
-                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
                   {currentSkill.description}
                 </p>
               </motion.div>
