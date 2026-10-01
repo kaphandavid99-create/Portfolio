@@ -152,29 +152,37 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
 
           {/* Action buttons */}
-          <div className="flex gap-2 pt-2">
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex flex-1 items-center justify-center rounded-lg bg-mint-500 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-white transition-all hover:bg-mint-600"
-            >
-              Live Demo
-            </a>
+          {project.status === "live" ? (
+            <div className="flex gap-2 pt-2">
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex flex-1 items-center justify-center rounded-lg bg-mint-500 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-white transition-all hover:bg-mint-600"
+              >
+                Live Demo
+              </a>
 
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigator.clipboard?.writeText(project.liveUrl);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-              }}
-              className="inline-flex items-center justify-center rounded-lg border-2 border-slate-300 dark:border-slate-700 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all hover:border-mint-500 hover:text-mint-600 dark:hover:text-mint-400"
-            >
-              {copied ? "Copied!" : "Copy Link"}
-            </button>
-          </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigator.clipboard?.writeText(project.liveUrl);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+                className="inline-flex items-center justify-center rounded-lg border-2 border-slate-300 dark:border-slate-700 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all hover:border-mint-500 hover:text-mint-600 dark:hover:text-mint-400"
+              >
+                {copied ? "Copied!" : "Copy Link"}
+              </button>
+            </div>
+          ) : (
+            <div className="flex gap-2 pt-2">
+              <div className="inline-flex flex-1 items-center justify-center rounded-lg bg-slate-200/50 dark:bg-slate-800/50 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                Coming Soon
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
