@@ -7,15 +7,17 @@ export function ThemeProvider({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return <>{children}</>
-  }
-
-  return <NextThemesProvider {...props} enableSystem={false} defaultTheme="dark">{children}</NextThemesProvider>
+  return (
+    <NextThemesProvider
+      {...props}
+      enableSystem={false}
+      defaultTheme="dark"
+      forcedTheme={undefined}
+      enableColorScheme={false}
+      storageKey="dave-tech-theme"
+      disableTransitionOnChange
+    >
+      {children}
+    </NextThemesProvider>
+  )
 }

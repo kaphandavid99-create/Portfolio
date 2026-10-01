@@ -18,12 +18,14 @@ export default function RootLayout({
       className="h-full antialiased"
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <head suppressHydrationWarning />
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
           storageKey="dave-tech-theme"
+          disableTransitionOnChange
         >
           {children}
         </ThemeProvider>
