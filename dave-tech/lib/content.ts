@@ -7,6 +7,7 @@ export type Project = {
   image: string;
   liveUrl: string;
   technologies: string[];
+  status: "live" | "in-progress";
 };
 
 export type Offering = {

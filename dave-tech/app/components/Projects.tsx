@@ -59,6 +59,7 @@ const defaultProjects: Project[] = [
     image: "/first.jpeg",
     technologies: ["Next.js", "Tailwind CSS", "Supabase", "TypeScript", "Express.js"],
     liveUrl: "https://fave-two.vercel.app/",
+    status: "live",
   },
   {
     id: "drivana",
@@ -67,6 +68,7 @@ const defaultProjects: Project[] = [
     image: "/second.jpeg",
     technologies: ["React", "Tailwind CSS", "MongoDB", "Node.js"],
     liveUrl: "https://drivana.vercel.app/",
+    status: "live",
   },
 ];
 
@@ -99,14 +101,24 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
 
-          {/* Live badge */}
-          <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold text-emerald-100 border border-emerald-400/40 backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            Live
-          </div>
+          {/* Status badge */}
+          {project.status === "live" ? (
+            <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold text-emerald-100 border border-emerald-400/40 backdrop-blur-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              Live
+            </div>
+          ) : (
+            <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-amber-500/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold text-amber-100 border border-amber-400/40 backdrop-blur-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+              </span>
+              In Progress
+            </div>
+          )}
         </div>
 
         {/* Content Section */}

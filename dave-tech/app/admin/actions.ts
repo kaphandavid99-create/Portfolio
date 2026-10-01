@@ -61,13 +61,14 @@ function readProjectFields(formData: FormData) {
     .split(",")
     .map((t) => t.trim())
     .filter(Boolean);
-  return { title, description, liveUrl, technologies };
+  const status = (formData.get("status") as "live" | "in-progress") || "live";
+  return { title, description, liveUrl, technologies, status };
 }
 
 export async function addProject(_prev: ActionState, formData: FormData): Promise<ActionState> {
   await requireAdmin();
 
-  const { title, description, liveUrl, technologies } = readProjectFields(formData);
+  const { title, description, liveUrl, technologies, status } = readProjectFields(formData);
   if (!title || !description) {
     return { error: "Title and description are required." };
   }
@@ -91,6 +92,7 @@ export async function addProject(_prev: ActionState, formData: FormData): Promis
     liveUrl,
     technologies,
     image,
+    status,
   };
   content.projects.push(project);
 
@@ -107,7 +109,7 @@ export async function updateProject(_prev: ActionState, formData: FormData): Pro
   const project = content.projects.find((p) => p.id === id);
   if (!project) return { error: "Project not found." };
 
-  const { title, description, liveUrl, technologies } = readProjectFields(formData);
+  const { title, description, liveUrl, technologies, status } = readProjectFields(formData);
   if (!title || !description) {
     return { error: "Title and description are required." };
   }
@@ -125,6 +127,7 @@ export async function updateProject(_prev: ActionState, formData: FormData): Pro
   project.description = description;
   project.liveUrl = liveUrl;
   project.technologies = technologies;
+  project.status = status;
 
   await saveContent(content);
   revalidateSite();

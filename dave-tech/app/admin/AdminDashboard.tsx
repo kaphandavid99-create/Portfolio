@@ -241,6 +241,13 @@ function ProjectEditor({ project }: { project: Project }) {
           defaultValue={project.technologies.join(", ")}
         />
         <div>
+          <label className={labelClass}>Status</label>
+          <select name="status" defaultValue={project.status} className={inputClass}>
+            <option value="live">Live</option>
+            <option value="in-progress">In Progress</option>
+          </select>
+        </div>
+        <div>
           <label className={labelClass}>Replace image (optional)</label>
           <input type="file" name="image" accept="image/*" className={fileInputClass} />
         </div>
@@ -277,6 +284,13 @@ function AddProjectForm() {
         label="Technologies (comma separated)"
         placeholder="Next.js, Tailwind CSS, MongoDB"
       />
+      <div>
+        <label className={labelClass}>Status</label>
+        <select name="status" defaultValue="live" className={inputClass}>
+          <option value="live">Live</option>
+          <option value="in-progress">In Progress</option>
+        </select>
+      </div>
       <div>
         <label className={labelClass}>Project image</label>
         <input type="file" name="image" accept="image/*" required className={fileInputClass} />
