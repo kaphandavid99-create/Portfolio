@@ -272,21 +272,54 @@ export default function Navbar({ logo = "/logo2.png" }: { logo?: string }) {
       </div>
 
       {/* Mobile menu */}
-      <div className={`md:hidden fixed top-16 right-0 h-screen w-80 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 backdrop-blur-lg border-l border-slate-200 dark:border-slate-700 transition-all duration-500 ease-out overflow-hidden ${
+      <div className={`md:hidden fixed top-16 right-0 h-screen w-80 backdrop-blur-xl border-l border-mint-500/20 transition-all duration-500 ease-out overflow-hidden ${
         isMobileMenuOpen
           ? 'translate-x-0 opacity-100'
           : 'translate-x-full opacity-0'
       }`}>
-        <div className="px-6 py-6 flex flex-col gap-3 h-full">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-900/95 dark:from-slate-900/98 dark:via-slate-900/95 dark:to-slate-900/98" />
+
+        {/* Animated glow blobs */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute -top-40 -right-40 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl"
+            animate={{
+              y: [0, 50, 0],
+              x: [0, 30, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div
+            className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"
+            animate={{
+              y: [0, -50, 0],
+              x: [0, -30, 0],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="relative px-6 py-6 flex flex-col gap-3 h-full z-10">
           {navItems.map((item, index) => (
             <Link
               key={item.label}
               href={item.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] rounded-lg transition-all duration-300 transform ${
+              className={`px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] rounded-lg transition-all duration-300 transform backdrop-blur-sm ${
                 activeSection === item.href.replace("#", "").toLowerCase()
-                  ? "bg-mint-500 text-white shadow-lg shadow-mint-500/30"
-                  : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  ? "bg-mint-500/80 text-white shadow-lg shadow-mint-500/50 border border-mint-400/50"
+                  : "text-slate-200 hover:bg-white/10 hover:border hover:border-mint-500/30"
               } ${isMobileMenuOpen ? `translate-x-0 opacity-100` : `translate-x-8 opacity-0`}`}
               style={{
                 transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : '0ms'
@@ -301,7 +334,7 @@ export default function Navbar({ logo = "/logo2.png" }: { logo?: string }) {
       {/* Backdrop overlay */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden fixed inset-0 top-16 bg-black/20 backdrop-blur-sm transition-opacity duration-300 z-40"
+          className="md:hidden fixed inset-0 top-16 bg-black/30 backdrop-blur-sm transition-opacity duration-300 z-40"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
