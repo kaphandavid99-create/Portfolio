@@ -23,7 +23,8 @@ export async function getSupabaseAdmin(): Promise<SupabaseClient> {
   }
 
   try {
-    const { createClient } = await import("@supabase/supabase-js");
+    // @ts-expect-error - dynamic require at runtime only
+    const { createClient } = require("@supabase/supabase-js");
     client = createClient(url, serviceRoleKey, {
       auth: { persistSession: false },
     });
