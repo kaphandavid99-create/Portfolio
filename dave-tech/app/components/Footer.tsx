@@ -60,7 +60,11 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   );
 }
 
-export default function Footer() {
+interface FooterProps {
+  logo?: string;
+}
+
+const Footer: React.FC<FooterProps> = ({ logo = "/logo2.png" }) => {
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
@@ -110,7 +114,7 @@ export default function Footer() {
             <div className="col-span-2 sm:col-span-1">
               <div className="mb-6 flex items-center gap-4">
                 <div className="relative h-14 w-14 overflow-hidden rounded-full border border-slate-200 dark:border-slate-700">
-                  <Image src="/logo2.png" alt="Logo" fill className="object-contain" />
+                  <Image src={logo} alt="Logo" fill className="object-contain" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white">DAVE TECH</h3>
@@ -242,4 +246,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;
