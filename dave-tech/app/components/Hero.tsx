@@ -36,7 +36,7 @@ export default function Hero({ heroImage = "/boy.jpeg" }: { heroImage?: string }
   return (
     <section id="home" className="relative px-4 sm:px-6 pt-32 sm:pt-16 lg:pt-28 py-16 sm:py-20 lg:py-28">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:gap-16 grid-cols-1 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="max-w-2xl text-center lg:text-left">
+        <div className="max-w-2xl text-center lg:text-left lg:ml-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
