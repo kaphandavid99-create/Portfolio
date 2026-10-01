@@ -216,7 +216,7 @@ export default function Navbar({ logo = "/logo2.png" }: { logo?: string }) {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-background/80 border-b border-slate-200 dark:border-slate-800">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2 lg:px-10">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1 lg:px-10">
         <div className="hidden items-center gap-2 md:flex">
           {leftItems.map((item) => (
             <NavLink
@@ -230,7 +230,7 @@ export default function Navbar({ logo = "/logo2.png" }: { logo?: string }) {
 
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="relative flex h-16 w-16 items-center justify-center sm:h-20 sm:w-20 cursor-pointer"
+          className="relative flex h-14 w-14 items-center justify-center sm:h-16 sm:w-16 cursor-pointer"
           aria-label="Toggle theme"
         >
           <div className="absolute inset-0 flex items-center justify-center">
@@ -239,9 +239,9 @@ export default function Navbar({ logo = "/logo2.png" }: { logo?: string }) {
           <Image
             src={logo}
             alt="Logo"
-            width={80}
-            height={80}
-            className="relative z-20 h-16 w-16 rounded-full object-contain sm:h-20 sm:w-20"
+            width={64}
+            height={64}
+            className="relative z-20 h-14 w-14 rounded-full object-contain sm:h-16 sm:w-16"
           />
         </button>
 
