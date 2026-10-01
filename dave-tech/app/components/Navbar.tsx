@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
 import { ThemeToggle } from "./theme-toggle";
 
 function FlameEffect() {
