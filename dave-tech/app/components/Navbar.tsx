@@ -187,12 +187,15 @@ function NavLink({ label, href, isActive }: { label: string; href: string; isAct
 export default function Navbar({ logo = "/logo2.png" }: { logo?: string }) {
   const [activeSection, setActiveSection] = useState("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
   const leftItems = navItems.slice(0, 3);
   const rightItems = navItems.slice(3);
 
   useEffect(() => {
     const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+
       const sections = navItems.map(item => item.href.replace('#', ''));
       const scrollPosition = window.scrollY + 100;
 
@@ -215,7 +218,7 @@ export default function Navbar({ logo = "/logo2.png" }: { logo?: string }) {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-background/80 border-b border-slate-200 dark:border-slate-800">
+    <nav className={`fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-background/80 border-b border-slate-200 dark:border-slate-800 transition-all duration-300 ${isScrolled ? "left-4 right-4 rounded-2xl mx-auto mt-2 w-auto" : ""}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1 lg:px-10">
         <div className="hidden items-center gap-2 md:flex">
           {leftItems.map((item) => (
