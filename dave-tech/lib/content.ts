@@ -38,7 +38,7 @@ const DEFAULT_CONTENT: SiteContent = {
 
 export async function getContent(): Promise<SiteContent> {
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = await getSupabaseAdmin();
     const { data, error } = await supabase
       .from(CONTENT_TABLE)
       .select("data")
@@ -53,7 +53,7 @@ export async function getContent(): Promise<SiteContent> {
 }
 
 export async function saveContent(content: SiteContent): Promise<void> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   const { error } = await supabase.from(CONTENT_TABLE).upsert({
     id: CONTENT_ROW_ID,
     data: content,

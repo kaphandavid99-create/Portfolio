@@ -1,10 +1,10 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+export type SupabaseClient = any;
 
 export const UPLOADS_BUCKET = process.env.SUPABASE_UPLOADS_BUCKET || "portfolio-uploads";
 
 let client: SupabaseClient | null = null;
 
-export function getSupabaseAdmin(): SupabaseClient {
+export async function getSupabaseAdmin(): Promise<SupabaseClient> {
   if (client) return client;
 
   const url = process.env.SUPABASE_URL;
@@ -15,6 +15,7 @@ export function getSupabaseAdmin(): SupabaseClient {
     );
   }
 
+  const { createClient } = await import("@supabase/supabase-js");
   client = createClient(url, serviceRoleKey, {
     auth: { persistSession: false },
   });

@@ -11,7 +11,7 @@ const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 const MAX_CV_SIZE = 10 * 1024 * 1024; // 10MB
 
 async function uploadToSupabase(file: File, slug: string, ext: string): Promise<string> {
-  const supabase = getSupabaseAdmin();
+  const supabase = await getSupabaseAdmin();
   const safeSlug = slug.replace(/[^a-z0-9-]/gi, "-").toLowerCase() || "file";
   const path = `${safeSlug}-${Date.now()}.${ext}`;
   const buffer = Buffer.from(await file.arrayBuffer());
