@@ -41,10 +41,45 @@ export default function Hero({ heroImage = "/boy.jpeg" }: { heroImage?: string }
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="eyebrow-tag border border-mint-500/30 bg-mint-500/10 text-mint-600 dark:text-mint-400"
+            className="relative inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full overflow-hidden"
           >
-            <span className="h-2 w-2 animate-pulse rounded-full bg-mint-500" />
-            Available for new opportunities
+            {/* Animated neon border glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-mint-500 via-cyan-400 to-mint-500 rounded-full opacity-0 blur-md group-hover:opacity-100 transition-opacity duration-300 animate-pulse" />
+
+            {/* Solid neon border */}
+            <div className="absolute inset-0 bg-gradient-to-r from-mint-500 to-cyan-400 rounded-full" style={{ padding: "1px" }} />
+
+            {/* Background */}
+            <div className="absolute inset-0 bg-slate-900/80 rounded-full" style={{ inset: "1px" }} />
+
+            {/* Animated floating particles */}
+            <div className="absolute inset-0 overflow-hidden rounded-full">
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-cyan-400 rounded-full"
+                  style={{
+                    left: `${20 + i * 30}%`,
+                    top: "50%",
+                  }}
+                  animate={{
+                    y: [0, -20, 0],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 2 + i * 0.5,
+                    repeat: Infinity,
+                    delay: i * 0.3,
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Content */}
+            <div className="relative flex items-center gap-2.5 text-mint-400">
+              <span className="h-2 w-2 rounded-full bg-gradient-to-r from-mint-400 to-cyan-400 animate-pulse shadow-lg shadow-mint-500/50" />
+              <span className="font-bold text-sm uppercase tracking-wider">Available for new opportunities</span>
+            </div>
           </motion.div>
 
           <motion.h1
