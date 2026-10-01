@@ -32,7 +32,7 @@ const socials = [
   },
 ];
 
-export default function Hero() {
+export default function Hero({ heroImage = "/boy.jpeg" }: { heroImage?: string }) {
   return (
     <section id="home" className="relative px-4 sm:px-6 pt-32 sm:pt-16 lg:pt-28 py-16 sm:py-20 lg:py-28">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:gap-16 grid-cols-1 lg:grid-cols-[1.05fr_0.95fr]">
@@ -73,7 +73,7 @@ export default function Hero() {
           >
             <div className="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64">
               <Image
-                src="/Dave.png"
+                src={heroImage}
                 alt="Kaphan David"
                 width={400}
                 height={400}
@@ -151,7 +151,7 @@ export default function Hero() {
           <div className="relative">
             <div className="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 w-80 h-96 xl:w-[22rem] xl:h-[26rem] shadow-2xl shadow-black/10 dark:shadow-black/40">
               <Image
-                src="/Dave.png"
+                src={heroImage}
                 alt="Kaphan David"
                 width={480}
                 height={560}

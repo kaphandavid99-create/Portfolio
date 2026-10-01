@@ -184,7 +184,7 @@ function NavLink({ label, href, isActive }: { label: string; href: string; isAct
   );
 }
 
-export default function Navbar() {
+export default function Navbar({ logo = "/logo2.png" }: { logo?: string }) {
   const [activeSection, setActiveSection] = useState("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -237,7 +237,7 @@ export default function Navbar() {
             <FlameEffect />
           </div>
           <Image
-            src="/logo2.png"
+            src={logo}
             alt="Logo"
             width={80}
             height={80}
@@ -269,24 +269,39 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
-      <div className={`md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-        <div className="px-6 py-4 flex flex-col gap-2">
-          {navItems.map((item) => (
+      <div className={`md:hidden fixed top-16 right-0 h-screen w-80 bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 backdrop-blur-lg border-l border-slate-200 dark:border-slate-700 transition-all duration-500 ease-out overflow-hidden ${
+        isMobileMenuOpen
+          ? 'translate-x-0 opacity-100'
+          : 'translate-x-full opacity-0'
+      }`}>
+        <div className="px-6 py-6 flex flex-col gap-3 h-full">
+          {navItems.map((item, index) => (
             <Link
               key={item.label}
               href={item.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] rounded-lg transition-all duration-300 ${
+              className={`px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] rounded-lg transition-all duration-300 transform ${
                 activeSection === item.href.replace("#", "").toLowerCase()
-                  ? "bg-mint-500 text-white"
-                  : "text-slate-600 dark:text-slate-300"
-              }`}
+                  ? "bg-mint-500 text-white shadow-lg shadow-mint-500/30"
+                  : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+              } ${isMobileMenuOpen ? `translate-x-0 opacity-100` : `translate-x-8 opacity-0`}`}
+              style={{
+                transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : '0ms'
+              }}
             >
               {item.label}
             </Link>
           ))}
         </div>
       </div>
+
+      {/* Backdrop overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="md:hidden fixed inset-0 top-16 bg-black/20 backdrop-blur-sm transition-opacity duration-300 z-40"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
     </nav>
   );
 }

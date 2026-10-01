@@ -3,40 +3,74 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-import { SiNextdotjs, SiTailwindcss, SiSupabase, SiTypescript, SiExpress, SiMongodb, SiNodedotjs, SiReact } from "react-icons/si";
-import { FaReact } from "react-icons/fa";
+import { Code2 } from "lucide-react";
+import type { IconType } from "react-icons";
+import {
+  SiNextdotjs,
+  SiTailwindcss,
+  SiSupabase,
+  SiTypescript,
+  SiExpress,
+  SiMongodb,
+  SiNodedotjs,
+  SiDocker,
+  SiFigma,
+  SiFirebase,
+  SiPostgresql,
+  SiRedux,
+} from "react-icons/si";
+import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaGithub, FaPython } from "react-icons/fa";
+import type { Project } from "@/lib/content";
 
-const projects = [
+const TECH_ICON_MAP: Record<string, IconType> = {
+  "next.js": SiNextdotjs,
+  "nextjs": SiNextdotjs,
+  "tailwind css": SiTailwindcss,
+  "tailwind": SiTailwindcss,
+  "supabase": SiSupabase,
+  "typescript": SiTypescript,
+  "express.js": SiExpress,
+  "express": SiExpress,
+  "react": FaReact,
+  "mongodb": SiMongodb,
+  "node.js": SiNodedotjs,
+  "nodejs": SiNodedotjs,
+  "html5": FaHtml5,
+  "css3": FaCss3Alt,
+  "javascript": FaJs,
+  "github": FaGithub,
+  "python": FaPython,
+  "docker": SiDocker,
+  "figma": SiFigma,
+  "firebase": SiFirebase,
+  "postgresql": SiPostgresql,
+  "redux": SiRedux,
+};
+
+function iconFor(tech: string): IconType {
+  return TECH_ICON_MAP[tech.trim().toLowerCase()] ?? Code2;
+}
+
+const defaultProjects: Project[] = [
   {
-    id: 1,
+    id: "fave-touch",
     title: "Fave's Touch",
     description: "Fave's Touch is a modern beauty and lifestyle platform that connects users with professional hairstylists and beauty services. It makes easy to discover styles, book appointment, explore trending looks, and enjoy a seamless beauty experience.",
     image: "/first.jpeg",
-    technologies: [
-      { name: 'Next.js', icon: SiNextdotjs },
-      { name: 'Tailwind CSS', icon: SiTailwindcss },
-      { name: 'Supabase', icon: SiSupabase },
-      { name: 'TypeScript', icon: SiTypescript },
-      { name: 'Express.js', icon: SiExpress },
-    ],
+    technologies: ["Next.js", "Tailwind CSS", "Supabase", "TypeScript", "Express.js"],
     liveUrl: "https://fave-two.vercel.app/",
   },
   {
-    id: 2,
+    id: "drivana",
     title: "Drivana",
     description: "Drivana is a modern digital platform that makes it easy for people to rent, buy, or sell vehicles from anywhere. It connects customers with trusted car owners and dealerships through a secure, user-friendly marketplace.",
     image: "/second.jpeg",
-    technologies: [
-      { name: 'React', icon: FaReact },
-      { name: 'Tailwind CSS', icon: SiTailwindcss },
-      { name: 'MongoDB', icon: SiMongodb },
-      { name: 'Node.js', icon: SiNodedotjs },
-    ],
+    technologies: ["React", "Tailwind CSS", "MongoDB", "Node.js"],
     liveUrl: "https://drivana.vercel.app/",
   },
 ];
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [copied, setCopied] = useState(false);
 
   return (
@@ -90,15 +124,18 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
           <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-3">
             <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400 mb-2 font-semibold">Technologies</p>
             <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech) => (
-                <span
-                  key={tech.name}
-                  className="inline-flex items-center gap-1 rounded-full bg-slate-200/80 dark:bg-slate-700/70 px-2 py-0.5 text-[10px] text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600/50"
-                >
-                  <tech.icon className="w-3 h-3" />
-                  {tech.name}
-                </span>
-              ))}
+              {project.technologies.map((tech) => {
+                const TechIcon = iconFor(tech);
+                return (
+                  <span
+                    key={tech}
+                    className="inline-flex items-center gap-1 rounded-full bg-slate-200/80 dark:bg-slate-700/70 px-2 py-0.5 text-[10px] text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600/50"
+                  >
+                    <TechIcon className="w-3 h-3" />
+                    {tech}
+                  </span>
+                );
+              })}
             </div>
           </div>
 
@@ -132,7 +169,9 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
   );
 }
 
-export default function Projects() {
+export default function Projects({ projects }: { projects?: Project[] }) {
+  const displayProjects = (projects && projects.length > 0) ? projects : defaultProjects;
+
   return (
     <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 relative">
       {/* Section header */}
@@ -157,7 +196,7 @@ export default function Projects() {
       {/* Projects Grid */}
       <div className="relative py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center px-2">
-          {projects.map((project, index) => (
+          {displayProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>

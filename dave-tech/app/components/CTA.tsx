@@ -3,9 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import type { Offering } from "@/lib/content";
 
-const services = [
+const defaultOfferings: Offering[] = [
   {
+    id: "web-app-development",
     title: "Web App Development",
     image: "/web app.jpeg",
     description:
@@ -13,6 +15,7 @@ const services = [
     featured: true,
   },
   {
+    id: "graphic-design",
     title: "Graphic Design",
     image: "/graphic.jpeg",
     description:
@@ -20,6 +23,7 @@ const services = [
     featured: false,
   },
   {
+    id: "website-maintenance",
     title: "Website Maintenance",
     image: "/maintainance.jpeg",
     description:
@@ -27,6 +31,7 @@ const services = [
     featured: false,
   },
   {
+    id: "digital-marketing",
     title: "Digital Marketing",
     image: "/digital.jpeg",
     description:
@@ -35,7 +40,15 @@ const services = [
   },
 ];
 
-export default function CTA() {
+export default function CTA({
+  offerings,
+  cvUrl = null,
+}: {
+  offerings?: Offering[];
+  cvUrl?: string | null;
+}) {
+  const displayOfferings = (offerings && offerings.length > 0) ? offerings : defaultOfferings;
+
   return (
     <section id="services" className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <motion.div
@@ -55,9 +68,9 @@ export default function CTA() {
 
       {/* 2x2 feature grid, one highlighted */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
-        {services.map((service, index) => (
+        {displayOfferings.map((service, index) => (
           <motion.div
-            key={service.title}
+            key={service.id}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -127,8 +140,15 @@ export default function CTA() {
           Get In Touch
         </Link>
         <Link
-          href="#"
-          className="rounded-xl border-2 border-slate-300 dark:border-slate-700 px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all hover:border-mint-500 hover:text-mint-600 dark:hover:text-mint-400 hover:-translate-y-0.5"
+          href={cvUrl ?? "#"}
+          target={cvUrl ? "_blank" : undefined}
+          rel={cvUrl ? "noopener noreferrer" : undefined}
+          aria-disabled={!cvUrl}
+          className={`rounded-xl border-2 border-slate-300 dark:border-slate-700 px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-slate-700 dark:text-slate-200 transition-all hover:-translate-y-0.5 ${
+            cvUrl
+              ? "hover:border-mint-500 hover:text-mint-600 dark:hover:text-mint-400"
+              : "opacity-50 pointer-events-none"
+          }`}
         >
           Download CV
         </Link>
